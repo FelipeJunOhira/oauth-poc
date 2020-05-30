@@ -13,20 +13,33 @@ john_user = User.create(email: 'john@gmail.com', password: '123123')
 
 admin = Developer.create(email: 'dev@gmail.com', password: '123123')
 
-frontend_application = OAuth::Application.create(
+
+frontend_application_data = {
   name: 'Frontend',
+  uid: '0247a214-bba6-42e6-a5f6-baaf4b8259e5',
+  secret: 'ShW0tK3qOjpaRLHcELsE8eLV5IJXTaIYmGiQ8s8NHXY',
   owner: admin
-)
+}
 
-mobile_application = OAuth::Application.create(
+
+mobile_application_data = {
   name: 'Mobile',
+  uid: 'a0f68337-5d20-40d6-91ab-e4841e3c99bf',
+  secret: 'fwJXviKrxiMoyxIjSKVuDOGMUl6WG1AHabeTu9rlu40',
   owner: admin
-)
+}
 
-applications = [frontend_application, mobile_application]
+applications_data = [frontend_application_data, mobile_application_data]
 
 puts "\nApplications created:"
 
-applications.each do |application|
-  puts "Application: #{application.name}\tUUID: #{application.uid}\tSecret: #{application.plaintext_secret}"
+applications_data.each do |application_data|
+  OAuth::Application.create(
+    name: application_data[:name],
+    uid: application_data[:uid],
+    secret: ::Doorkeeper::SecretStoring::BCrypt.transform_secret(application_data[:secret]),
+    owner: application_data[:owner]
+  )
+
+  puts "Application: #{application_data[:name]}\tUUID: #{application_data[:uid]}\tSecret: #{application_data[:secret]}"
 end
