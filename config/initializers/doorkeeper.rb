@@ -7,10 +7,14 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
-    # Put your resource owner authentication logic here.
-    # Example implementation:
-    #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+    case session[:user_type]
+    when 'User'
+      User.find(session[:user_id])
+    when 'Developer'
+      Developer.find(session[:user_id])
+    else
+      redirect_to(new_front_session_path)
+    end
   end
 
   resource_owner_from_credentials do
@@ -22,16 +26,11 @@ Doorkeeper.configure do
   # adding oauth authorized applications. In other case it will return 403 Forbidden response
   # every time somebody will try to access the admin web interface.
   #
-  # admin_authenticator do
-  #   # Put your admin authentication logic here.
-  #   # Example implementation:
-  #
-  #   if current_user
-  #     head :forbidden unless current_user.admin?
-  #   else
-  #     redirect_to sign_in_url
-  #   end
-  # end
+  admin_authenticator do
+    return redirect_to(new_front_session_path) unless session[:user_type] == 'Developer'
+
+    User.find(session[:user_id])
+  end
 
   # You can use your own model classes if you need to extend (or even override) default
   # Doorkeeper models such as `Application`, `AccessToken` and `AccessGrant.

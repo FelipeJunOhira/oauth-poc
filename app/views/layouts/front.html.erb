@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OauthPoc</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+  </head>
+
+  <body>
+    <% if user_logged? %>
+      <p>Your are logged as <%= current_user.username %></p>
+      <%= link_to 'Logout', logout_front_sessions_path %>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>

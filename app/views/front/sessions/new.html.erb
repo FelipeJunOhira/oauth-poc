@@ -1,0 +1,27 @@
+<h1>Login</h1>
+
+<%= render partial: 'shared/error_for', locals: { model: @form, field: :base } %>
+
+<%= form_for(@form, url: front_sessions_path, as: :form) do |f| %>
+  <div>
+    <%= f.label :type %>
+    <%= f.select :type, Front::SessionForm::VALID_TYPES %>
+    <%= render partial: 'shared/error_for', locals: { model: @form, field: :type } %>
+  </div>
+
+  <div>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+    <%= render partial: 'shared/error_for', locals: { model: @form, field: :email } %>
+  </div>
+
+  <div>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    <%= render partial: 'shared/error_for', locals: { model: @form, field: :password } %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

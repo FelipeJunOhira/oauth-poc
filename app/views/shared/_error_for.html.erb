@@ -1,0 +1,7 @@
+<ul>
+  <% model.errors.full_messages_for(field).each do |message| %>
+    <li>
+      <%= message %>
+    </li>
+  <% end %>
+</ul>

@@ -31,3 +31,11 @@
 
 en:
   hello: "Hello world"
+
+  activemodel:
+    errors:
+      models:
+        front/session_form:
+          attributes:
+            base:
+              wrong_credentials: 'invalid credentials'
