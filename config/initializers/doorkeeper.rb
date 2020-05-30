@@ -34,10 +34,10 @@ Doorkeeper.configure do
   #
   # Be default Doorkeeper ActiveRecord ORM uses it's own classes:
   #
-  # access_token_class "Doorkeeper::AccessToken"
-  # access_grant_class "Doorkeeper::AccessGrant"
-  # application_class "Doorkeeper::Application"
-  #
+  access_token_class 'OAuth::AccessToken'
+  access_grant_class 'OAuth::AccessGrant'
+  application_class 'OAuth::Application'
+
   # Don't forget to include Doorkeeper ORM mixins into your custom models:
   #
   #   *  ::Doorkeeper::Orm::ActiveRecord::Mixins::AccessToken - for access token
@@ -192,7 +192,7 @@ Doorkeeper.configure do
   # If you wish to use bcrypt for application secret hashing, uncomment
   # this line instead:
   #
-  # hash_application_secrets using: '::Doorkeeper::SecretStoring::BCrypt'
+  hash_application_secrets using: '::Doorkeeper::SecretStoring::BCrypt'
 
   # When the above option is enabled, and a hashed token or secret is not found,
   # you can allow to fall back to another strategy. For users upgrading
@@ -288,8 +288,8 @@ Doorkeeper.configure do
   # column for `oauth_applications` database table.
   #
   # You can completely disable this feature with:
-  #
-  # allow_blank_redirect_uri false
+
+  allow_blank_redirect_uri true
   #
   # Or you can define your custom check:
   #

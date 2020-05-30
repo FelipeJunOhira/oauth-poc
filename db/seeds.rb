@@ -28,5 +28,5 @@ applications = [frontend_application, mobile_application]
 puts "\nApplications created:"
 
 applications.each do |application|
-  puts "Application: #{application.name}\tUUID: #{application.uid}\tSecret: #{application.secret}"
+  puts "Application: #{application.name}\tUUID: #{application.uid}\tSecret: #{application.plaintext_secret}"
 end

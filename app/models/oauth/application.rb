@@ -2,8 +2,9 @@ module Oauth
   class Application < ApplicationRecord
     self.table_name = 'oauth_applications'
 
+    include ::Doorkeeper::Orm::ActiveRecord::Mixins::Application
+
     attribute :uid, default: -> { SecureRandom.uuid }
-    attribute :secret, default: -> { SecureRandom.hex(64) }
 
     belongs_to :owner, class_name: 'Developer'
   end
