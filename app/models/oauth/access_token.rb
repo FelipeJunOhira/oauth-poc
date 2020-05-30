@@ -4,6 +4,6 @@ module OAuth
 
     include ::Doorkeeper::Orm::ActiveRecord::Mixins::AccessToken
 
-    belongs_to :resource_owner, polymorphic: true
+    belongs_to :resource_owner, polymorphic: true, optional: true
   end
 end
