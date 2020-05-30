@@ -118,7 +118,7 @@ Doorkeeper.configure do
   # Use a custom class for generating the access token.
   # See https://doorkeeper.gitbook.io/guides/configuration/other-configurations#custom-access-token-generator
   #
-  # access_token_generator '::Doorkeeper::JWT'
+  access_token_generator '::Doorkeeper::JWT'
 
   # The controller +Doorkeeper::ApplicationController+ inherits from.
   # Defaults to +ActionController::Base+ unless +api_only+ is set, which changes the default to
@@ -491,4 +491,73 @@ Doorkeeper.configure do
   # WWW-Authenticate Realm (default: "Doorkeeper").
   #
   # realm "Doorkeeper"
+end
+
+
+Doorkeeper::JWT.configure do
+  # Set the payload for the JWT token. This should contain unique information
+  # about the user. Defaults to a randomly generated token in a hash:
+  #     { token: "RANDOM-TOKEN" }
+  #
+  token_payload do |opts|
+    payload = {
+      iss: 'OAuth Poc',
+      iat: Time.current.utc.to_i,
+      jti: SecureRandom.uuid,
+      exp: (opts[:created_at] + opts[:expires_in]).to_i,
+    }
+
+    if opts[:resource_owner]
+      user = opts[:resource_owner]
+
+      payload.merge!(
+        user: {
+          id: user.id,
+          username: user.username
+        }
+      )
+    end
+
+    if opts[:application]
+      application = opts[:application]
+
+      payload.merge!(
+        application: {
+          id: application.id,
+          name: application.name
+        }
+      )
+    end
+
+    payload
+  end
+
+  # Optionally set additional headers for the JWT. See
+  # https://tools.ietf.org/html/rfc7515#section-4.1
+  #
+  # token_headers do |opts|
+  #   { kid: opts[:application][:uid] }
+  # end
+
+  # Use the application secret specified in the access grant token. Defaults to
+  # `false`. If you specify `use_application_secret true`, both `secret_key` and
+  # `secret_key_path` will be ignored.
+  #
+  # use_application_secret false
+
+  # Set the encryption secret. This would be shared with any other applications
+  # that should be able to read the payload of the token. Defaults to "secret".
+  #
+  secret_key ENV['ACCESS_TOKEN_JWT_SECRET']
+
+  # If you want to use RS* encoding specify the path to the RSA key to use for
+  # signing. If you specify a `secret_key_path` it will be used instead of
+  # `secret_key`.
+  #
+  # secret_key_path File.join('path', 'to', 'file.pem')
+
+  # Specify encryption type (https://github.com/progrium/ruby-jwt). Defaults to
+  # `nil`.
+  #
+  encryption_method :hs512
 end
