@@ -13,12 +13,12 @@ john_user = User.create(email: 'john@gmail.com', password: '123123')
 
 admin = Developer.create(email: 'dev@gmail.com', password: '123123')
 
-frontend_application = Oauth::Application.create(
+frontend_application = OAuth::Application.create(
   name: 'Frontend',
   owner: admin
 )
 
-mobile_application = Oauth::Application.create(
+mobile_application = OAuth::Application.create(
   name: 'Mobile',
   owner: admin
 )

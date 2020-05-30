@@ -1,4 +1,4 @@
-module Oauth
+module OAuth
   class Application < ApplicationRecord
     self.table_name = 'oauth_applications'
 

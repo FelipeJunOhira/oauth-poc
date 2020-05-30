@@ -1,4 +1,4 @@
-module Oauth
+module OAuth
   class AccessToken < ApplicationRecord
     self.table_name = 'oauth_access_tokens'
 
