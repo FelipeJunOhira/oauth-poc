@@ -25,11 +25,13 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
 gem 'doorkeeper', '~> 5.4.0'
+gem 'doorkeeper-jwt', '~> 0.2.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
+  gem 'dotenv-rails'
   gem 'pry-rails'
 end
 
