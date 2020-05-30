@@ -320,13 +320,13 @@ Doorkeeper.configure do
   # This configuration option can be a proc, lambda or any Ruby object responds
   # to `.call` method and result of it's invocation must be a Hash.
   #
-  # custom_introspection_response do |token, context|
-  #   {
-  #     "sub": "Z5O3upPC88QrAjx00dis",
-  #     "aud": "https://protected.example.net/resource",
-  #     "username": User.find(token.resource_owner_id).username
-  #   }
-  # end
+  custom_introspection_response do |token, context|
+    user = token.resource_owner
+
+    {
+      'username' => token.resource_owner.username
+    }
+  end
   #
   # or
   #
@@ -466,19 +466,20 @@ Doorkeeper.configure do
   #
   # You can define your custom check:
   #
-  # allow_token_introspection do |token, authorized_client, authorized_token|
-  #   if authorized_token
-  #     # customize: require `introspection` scope
-  #     authorized_token.application == token&.application ||
-  #       authorized_token.scopes.include?("introspection")
-  #   elsif token.application
-  #     # `protected_resource` is a new database boolean column, for example
-  #     authorized_client == token.application || authorized_client.protected_resource?
-  #   else
-  #     # public token (when token.application is nil, token doesn't belong to any application)
-  #     true
-  #   end
-  # end
+  allow_token_introspection do |token, authorized_client, authorized_token|
+    true
+    # if authorized_token
+    #   # customize: require `introspection` scope
+    #   authorized_token.application == token&.application ||
+    #     authorized_token.scopes.include?("introspection")
+    # elsif token.application
+    #   # `protected_resource` is a new database boolean column, for example
+    #   authorized_client == token.application || authorized_client.protected_resource?
+    # else
+    #   # public token (when token.application is nil, token doesn't belong to any application)
+    #   true
+    # end
+  end
   #
   # Or you can completely disable any token introspection:
   #
