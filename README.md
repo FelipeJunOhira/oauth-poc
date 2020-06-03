@@ -1,24 +1,22 @@
-# README
+# OAuth Poc with Doorkeeper
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Dependencies
 
-Things you may want to cover:
+- Ruby 2.6.6
 
-* Ruby version
+## Setup
 
-* System dependencies
+- `bundle install`
+- `rake db:create db:migrate`
+- `rails s`
 
-* Configuration
+## Insomnia Docs
 
-* Database creation
+I exported an Insomnia json file with tested endpoints. Just download [Insomnia Core](https://insomnia.rest/download/) and import the `docs/insomnia/oauth-poc.json` file there.
 
-* Database initialization
+## Grant types covered
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- [X] Password grant type
+- [X] Refresh Token grant type
+- [X] Client Credentials grant type
+- [ ] Authorization Code grant type
